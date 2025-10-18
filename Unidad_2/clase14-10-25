@@ -1,0 +1,18 @@
+Indicador de rendimiento - KPI
+
+PID (Proporcionale Integral Derivativo)
+Necesita definir setpoint (valor respecto al tiempo)
+Punto de equiilibrio lo que quiero y lo que es
+Funciona respecto una ecuacion de transferencia G(s)
+
+KP que tanto va a acelerar
+P - suave
+Integral area bajo la curva - intenta disminuir oscilaciones
+Derivada la tangente bajo curva _ no haya picos grandes
+
+PID
+soft constraints - se puede romper
+hard constraints - se debe de cumplir
+
+Carrito
+Circuito circular en el que aparezca un peaton al frente. Simular PID

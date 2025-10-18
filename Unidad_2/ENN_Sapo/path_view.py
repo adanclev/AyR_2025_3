@@ -1,6 +1,5 @@
-import sys
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPainter, QColor, QFont
 from PyQt5.QtCore import Qt, QRect
 from sapo_thread import SapoThread
@@ -83,9 +82,9 @@ class PathView(QMainWindow, Ui_MainWindow):
         # Dibujar nodos
         for nivel in self.posiciones:
             for x, y, cost, state in nivel:
-                if state == STATES["SELECTED"]:
+                if state == STATES.get("SELECTED"):
                     painter.setBrush(QColor(56, 176, 0))
-                elif state == STATES["BLOCKED"]:
+                elif state == STATES.get("BLOCKED"):
                     painter.setBrush(QColor(186, 24, 27))
                 else:
                     painter.setBrush(QColor(113, 17, 171))
@@ -97,9 +96,3 @@ class PathView(QMainWindow, Ui_MainWindow):
                 painter.setPen(QColor(255, 255, 255))
                 rect = QRect(x - 20, y - 20, 40, 40)
                 painter.drawText(rect, Qt.AlignCenter, str(cost))
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = PathView()
-    window.show()
-    sys.exit(app.exec_())

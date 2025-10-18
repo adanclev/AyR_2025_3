@@ -7,7 +7,7 @@ import copy
 
 class SapoThread(QThread):
     Signal = pyqtSignal(list, tuple)
-    # [[(cost, state), ...]], (best, current)
+    # [[(cost, state), ...], ...], (best, current)
 
     def __init__(self, n_sections=N_SECTIONS, max_paths=MAX_PATHS, max_cost=MAX_COST):
         super().__init__()
@@ -15,7 +15,7 @@ class SapoThread(QThread):
         self.n_sections = n_sections
         self.max_paths = max_paths
         self.max_cost = max_cost
-        #rand.seed(5)
+        rand.seed(5)
 
     def run(self):
         sections_og = self.create_paths()
@@ -30,7 +30,7 @@ class SapoThread(QThread):
         it_sin_mejora = 0
         best_race = 9999
 
-        while it_sin_mejora < MAX_IT_SIN_MEJORA:
+        while self.running and it_sin_mejora < MAX_IT_SIN_MEJORA:
             it = 0
             offset = 1
             current_total_cost = 0
@@ -71,7 +71,7 @@ class SapoThread(QThread):
                     continue
 
                 selected_path.toggle_closed_state()
-                current_total_cost += selected_path.get_cost()
+                current_total_cost += selected_path.cost
 
                 self.update_graph(sections,
                                   idx_section=it+offset,
@@ -83,7 +83,7 @@ class SapoThread(QThread):
                 time.sleep(INTERVAL)
 
                 if current_total_cost <= best_race:
-                    previous_costs[it] = (current_total_cost - selected_path.get_cost(), random_idx)
+                    previous_costs[it] = (current_total_cost - selected_path.cost, random_idx)
                     it = it + 1
                     offset = offset + 1
                     self.update_graph(sections,
@@ -92,7 +92,7 @@ class SapoThread(QThread):
                                       current=current_total_cost
                                       )
                 else:
-                    current_total_cost -= selected_path.get_cost()
+                    current_total_cost -= selected_path.cost
                     self.update_graph(sections,
                                       idx_section=it+offset-1,
                                       best=best_race,
@@ -161,14 +161,14 @@ class SapoThread(QThread):
     def create_graph_levels(self, sections, idx_section, idx_path):
         graph_levels = list()
         for section in sections:
-            graph_levels.append([(0 ,STATES["AVAILABLE"])])  # Inicio / descanso [(cost, state), ...]
-            graph_levels.append([(path.cost, STATES["BLOCKED"] if path.closed else STATES["AVAILABLE"])
+            graph_levels.append([(0 ,STATES.get("AVAILABLE", 0))])  # Inicio / descanso [(cost, state), ...]
+            graph_levels.append([(path.cost, STATES.get("BLOCKED", 0) if path.closed else STATES.get("AVAILABLE",0))
                           for path in section])
 
-        graph_levels.append([(0 ,STATES["AVAILABLE"])])  # Meta [(cost, state), ...]
+        graph_levels.append([(0 ,STATES.get("AVAILABLE", 0))])  # Meta [(cost, state), ...]
 
         cost, _ = graph_levels[idx_section][idx_path]
-        graph_levels[idx_section][idx_path] = (cost, STATES["SELECTED"])
+        graph_levels[idx_section][idx_path] = (cost, STATES.get("SELECTED", 0))
 
         return graph_levels
 

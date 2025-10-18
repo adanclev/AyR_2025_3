@@ -28,6 +28,8 @@ REGLAS = {
     "accion_mute": ["objeto_dispositivo"],
 }
 
+VOSK_MODEL_PATH = "model/"
+
 if __name__ == '__main__':
     print(DICCIONARIO)
 

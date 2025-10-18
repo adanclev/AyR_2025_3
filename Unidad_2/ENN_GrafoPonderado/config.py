@@ -1,0 +1,10 @@
+MAX_IT = 50
+N_NODES = 6
+MAX_WEIGHT = 15
+PROB_PATH = 0.4
+
+NODE_TYPE = {
+    "START": 0,
+    "END": 1,
+    "REGULAR": 2
+}

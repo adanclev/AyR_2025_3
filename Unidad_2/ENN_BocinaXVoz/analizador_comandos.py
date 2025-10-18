@@ -12,7 +12,6 @@ class AnalizadorDeComandos:
             for key, values in self.diccionario.items():
                 for command in commands_normalizados:
                     if command in values:
-                        # Guardamos la categoría (key) y la palabra real (command)
                         self.lex[key] = command
 
             self.accion_key = None
@@ -28,14 +27,11 @@ class AnalizadorDeComandos:
                     self.valor_key = key
 
     def _validacion(self, frase):
-        # Verifica la coherencia entre Acción, Objeto y Valor
-
         if not self.accion_key or not self.objeto_key:
             return False, f"Faltan la Acción en la frase: '{frase}'"
 
         roles_compatibles = self.reglas[self.accion_key]
 
-        # Si el objeto no es el esperado de acuerdo con la acción
         if self.objeto_key not in roles_compatibles:
             return False, (f"La Acción '{self.lex[self.accion_key]}' ({self.accion_key}) no es compatible "
                            f"con el Objeto '{self.lex[self.objeto_key]}' ({self.objeto_key}).")
@@ -46,10 +42,8 @@ class AnalizadorDeComandos:
         commands = frase.split(" ")
         commands_minus = [c.lower() for c in commands]
 
-        # Paso 1: Análisis Léxico y Extracción de Roles
         self._analisis_lexico(commands_minus)
 
-        # Paso 2: Validación Semántica
         valido, mensaje = self._validacion(frase)
 
         print("-" * 40)
@@ -59,8 +53,6 @@ class AnalizadorDeComandos:
 
         if valido:
             print(f"{mensaje}")
-
-            # Generación de la acción ejecutable
             accion = self.lex.get(self.accion_key)
             objeto = self.lex.get(self.objeto_key)
             valor = self.lex.get(self.valor_key)

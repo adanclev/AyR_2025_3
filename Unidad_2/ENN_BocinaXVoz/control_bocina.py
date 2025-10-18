@@ -1,14 +1,11 @@
 import sys
 import os
-from vosk import Model, KaldiRecognizer
-import pyaudio
+from vosk import Model
 from PyQt5 import uic, QtWidgets, QtMultimedia
-from PyQt5.QtCore import QUrl, QThread, pyqtSignal, QObject
-import time
-from config import DICCIONARIO, REGLAS, PORCIENTOS
-from AnalizadorDeComandos import AnalizadorDeComandos
-
-VOSK_MODEL_PATH = "model"
+from PyQt5.QtCore import QUrl
+from config import DICCIONARIO, REGLAS, PORCIENTOS, VOSK_MODEL_PATH
+from analizador_comandos import AnalizadorDeComandos
+from voice_thread import VoiceThread
 
 if not os.path.exists(VOSK_MODEL_PATH):
     print("Descargar modelo de https://alphacephei.com/vosk/models")
@@ -16,83 +13,10 @@ if not os.path.exists(VOSK_MODEL_PATH):
 
 VOSK_MODEL = Model(VOSK_MODEL_PATH)
 
-# ----------------------------------------------------------------------
-# 2. HILO SEPARADO PARA EL RECONOCIMIENTO DE VOZ (VOSK)
-# ----------------------------------------------------------------------
-# Usaremos QThread para evitar que la UI se congele
-class VoiceThread(QThread):
-    # Señal para enviar el comando reconocido al hilo principal de la UI
-    command_recognized = pyqtSignal(str)
-
-    def __init__(self, parent=None):
-        super(VoiceThread, self).__init__(parent)
-        self.running = True
-
-    def run(self):
-        # Inicializar Vosk dentro del hilo (seguro para Vosk y PyAudio)
-        recognizer = KaldiRecognizer(VOSK_MODEL, 16000)
-        mic = pyaudio.PyAudio()
-
-        # Abrir stream de audio
-        stream = mic.open(format=pyaudio.paInt16,
-                          channels=1,
-                          rate=16000,
-                          input=True,
-                          frames_per_buffer=8192)  # Aumentamos el buffer para evitar underflows
-        stream.start_stream()
-
-        print("🎤 Hilo de Voz iniciado. Escuchando...")
-
-        while self.running:
-            try:
-                # Leer bloques de audio
-                data = stream.read(4096, exception_on_overflow=False)
-
-                if recognizer.AcceptWaveform(data):
-                    # Obtener el resultado final
-                    result = recognizer.Result()
-
-                    result = result.replace("\"", "").replace("\n", "")
-                    posDosPuntos = result.index(":") + 2
-                    comando = result[posDosPuntos:-1].strip()
-
-                    if comando:
-                        print(f"COMANDO DETECTADO: {comando}")
-                        # Emitir la señal al hilo principal de PyQt
-                        self.command_recognized.emit(comando)
-                else:
-                    # Esto se usa para resultados parciales (si quisieras mostrar "estás diciendo...")
-                    pass
-
-            except IOError as e:
-                # Manejar el error de stream si es necesario
-                # print(f"Error de I/O en PyAudio: {e}")
-                pass
-            except ValueError:
-                # El stream puede romperse si la data está mal
-                print("Error de valor en stream. Reintentando...")
-                time.sleep(0.1)  # Pausar un momento
-
-        # Limpieza al detener el hilo
-        stream.stop_stream()
-        stream.close()
-        mic.terminate()
-        print("🛑 Hilo de Voz detenido.")
-
-    def stop(self):
-        self.running = False
-        self.wait()  # Esperar a que el hilo termine su ejecución
-
-
-# ----------------------------------------------------------------------
-# 3. CLASE PRINCIPAL DE PYQT (MYAPP)
-# ----------------------------------------------------------------------
-
 qtCreatorFile = "Control_bocina.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-
-class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
+class ControlBocinaView(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -124,7 +48,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.encendida = False
 
         # Inicializar y Conectar Hilo de Voz
-        self.voice_thread = VoiceThread()
+        self.voice_thread = VoiceThread(model=VOSK_MODEL)
         # Conectamos la señal de voz a la función de procesamiento
         self.voice_thread.command_recognized.connect(self.process_voice_command)
         self.voice_thread.start()
@@ -135,9 +59,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.voice_thread.stop()
         super().closeEvent(event)
 
-    # ------------------------------------------------------------------
-    # 4. FUNCIÓN CENTRAL DE PROCESAMIENTO DE VOZ
-    # ------------------------------------------------------------------
     def process_voice_command(self, command):
         self.analizador.analizar(command)
 
@@ -305,10 +226,3 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.player.setVolume(value)
             self.slider_Volumen.setValue(value)
             self.statusbar.showMessage(f"Volumen: {value}% 🔊")
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = MyApp()
-    window.show()
-    sys.exit(app.exec_())

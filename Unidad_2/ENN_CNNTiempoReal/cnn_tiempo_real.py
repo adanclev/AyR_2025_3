@@ -1,16 +1,12 @@
-import sys
 from PyQt5 import uic, QtWidgets, QtGui, QtCore
 from PyQt5.QtSvg import QSvgRenderer
 from camera_thread import CameraThread
-from config import STYLES
+from config import STYLES, MODELO, PESOS
 
 qtCreatorFile = "Interfaz_Verificacion.ui"  # Nombre del archivo aquí.
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-modelo = "../E04_CNN/modelo/modelo.keras"
-pesos = '../E04_CNN/modelo/pesos.weights.h5'
-
-class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
+class CNNTiempoRealView(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -29,20 +25,20 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def toggle_camera(self):
         if self.Worker is None or not self.Worker.isRunning():
             self.is_running = True
-            self.Worker = CameraThread(model_path=modelo, weights_path=pesos)
+            self.Worker = CameraThread(model_path=MODELO, weights_path=PESOS)
 
             self.Worker.Prediction.connect(self.worker_conn)
             self.Worker.start()
             self.btn_action.setText("Detener cámara")
-            self.btn_action.setStyleSheet(STYLES["btn_action"] + "background-color: rgb(255, 0, 0);")
+            self.btn_action.setStyleSheet(STYLES.get("btn_action","") + "background-color: rgb(255, 0, 0);")
         elif self.Worker is not None:
             self.Worker.stop()
             self.is_running = False
             self.btn_action.setText("Iniciar cámara")
-            self.btn_action.setStyleSheet(STYLES["btn_action"] + "background-color: rgb(85, 85, 255);")
+            self.btn_action.setStyleSheet(STYLES.get("btn_action","") + "background-color: rgb(85, 85, 255);")
 
             self.lbl_predict.setText("Esperando cámara ...")
-            self.lbl_predict.setStyleSheet(STYLES["lbl_predict"] + "background-color: rgb(122, 122, 122);")
+            self.lbl_predict.setStyleSheet(STYLES.get("lbl_predict","") + "background-color: rgb(122, 122, 122);")
 
             renderer = QSvgRenderer(":/svgs/Archivos/Images/placeholder.svg")
             pixmap = QtGui.QPixmap(self.lbl_cam.width(), self.lbl_cam.height())
@@ -69,14 +65,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def update_label_predict(self, prediction):
         if prediction[0]:
-            self.lbl_predict.setStyleSheet(STYLES["lbl_predict"] + "background-color: rgb(0, 170, 0);")
+            self.lbl_predict.setStyleSheet(STYLES.get("lbl_predict", "") + "background-color: rgb(0, 170, 0);")
         else:
-            self.lbl_predict.setStyleSheet(STYLES["lbl_predict"] + "background-color: rgb(255, 0, 0);")
+            self.lbl_predict.setStyleSheet(STYLES.get("lbl_predict", "") + "background-color: rgb(255, 0, 0);")
 
         self.lbl_predict.setText(prediction[1])
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = MyApp()
-    window.show()
-    sys.exit(app.exec_())

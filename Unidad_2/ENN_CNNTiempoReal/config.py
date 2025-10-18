@@ -7,3 +7,6 @@ STYLES = {
     "btn_action": "color: rgb(255, 255, 255); "
                   "border-radius: 20px; "
 }
+
+MODELO = "../E04_CNN/modelo/modelo.keras"
+PESOS = '../E04_CNN/modelo/pesos.weights.h5'
