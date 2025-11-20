@@ -8,6 +8,8 @@ import random as rand
 class LSThread(QThread):
     # [('A', 'start'), ('B', 'end'), ...], (NodoId, node_type)
     # [('A', 'B', 12), ('A', 'F', 3), ...], Edges(Nodo1, Nodo2, peso, selected)
+    # costo
+    # path
     Graph = pyqtSignal(list, list, int, str)
 
     def __init__(self, max_it=MAX_IT, n=N_NODES, max_weight=MAX_WEIGHT, p=PROB_PATH):

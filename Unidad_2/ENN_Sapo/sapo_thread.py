@@ -15,7 +15,6 @@ class SapoThread(QThread):
         self.n_sections = n_sections
         self.max_paths = max_paths
         self.max_cost = max_cost
-        rand.seed(5)
 
     def run(self):
         sections_og = self.create_paths()

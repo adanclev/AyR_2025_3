@@ -20,7 +20,6 @@ class Graph:
         self.max_weight = max_weight
         self.p = prob_path
         self.nodes = []
-        #rand.seed(9)
 
     def create_graph(self):
         ids = [chr(65 + i) for i in range(self.n)]  # ['A', 'B', 'C', ...]
@@ -61,5 +60,5 @@ if __name__ == "__main__":
 
     print(nodos[0].id, nodos[0].adjacents)
 
-# Cantidad de nodos, c/nodo tendra: costo, id, adjacents
+# Cantidad de nodos, c/nodo tendra: id, adjacents
 # Grafo: Matriz de adyacencia/costos

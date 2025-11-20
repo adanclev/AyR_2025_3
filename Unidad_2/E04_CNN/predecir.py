@@ -82,11 +82,11 @@ def probar_red_neuronal():
 
     print("Efficiency: ", (correct/count_predictions*100))
 
-#probar_red_neuronal()
+probar_red_neuronal()
 #predicho = predict("../E04_CNN/F3-Prueba/C1-Adan/adan_foto_0.png")
 #predicho = predict("../E04_CNN/F3-Prueba/C2-Poncho/Alfonso_foto_10.png")
 #predicho = predict("../E04_CNN/F3-Prueba/C4-Cristobal/cristobal_foto_50.png")
 #predicho = predict("../E04_CNN/F3-Prueba/C3-Pavel/Pavel_foto_2.png")
 #predicho = predict("../../Archivos/Images/poncho1.png")
-predicho = predict("../../Archivos/Images/persona1.jpg")
-print(predicho)
+#predicho = predict("../../Archivos/Images/persona1.jpg")
+#print(predicho)
