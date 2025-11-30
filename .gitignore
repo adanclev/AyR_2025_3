@@ -1,12 +1,16 @@
+# Imagenes CNN (Entrenamiento, Prueba y Validación)
 Archivos/Clases-individuos/
 Archivos/Clases-individuos-old/
 Archivos/Images/adan/
 Archivos/Images/adan_obs/
+
+# Modelo keras y OpenCV
 modelo/
 model/
-Unidad_2/ENN_BocinaXVoz/sounds/
 *.xml
 *.keras
 *.h5
+
+Unidad_3/ENN_BocinaXVoz/sounds/
 *.mp3
 *.wav

@@ -1,5 +1,4 @@
 import time
-
 from PyQt5.QtCore import QThread, pyqtSignal
 from config import MAX_IT, MAX_WEIGHT, PROB_PATH, N_NODES, NODE_TYPE
 from graph import Graph

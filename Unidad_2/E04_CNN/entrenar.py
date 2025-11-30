@@ -30,7 +30,7 @@ kernel1 = (3, 3)
 kernel2 = (2, 2)
 kernel3 = (3, 3)
 
-tot_kernels1 = 32  #8 ....
+tot_kernels1 = 48
 tot_kernels2 = 64
 tot_kernels3 = 128
 
@@ -98,7 +98,7 @@ cnn.add(Flatten()) # aplana la informacion
 cnn.add(Dense(256, activation='relu')) #
 
 # 0.2 - 0.6
-cnn.add(Dropout(0.3)) #porcentaje de neuronas apagadas en cada paso (0.5 = 50%)
+cnn.add(Dropout(0.4)) #porcentaje de neuronas apagadas en cada paso (0.5 = 50%)
 # permite aprender caminos alternos para clasificar.. evita sobreentrenamiento
 
 #capa 8 - salida'

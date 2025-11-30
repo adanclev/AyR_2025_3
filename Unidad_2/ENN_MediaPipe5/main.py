@@ -7,3 +7,7 @@ if __name__ == "__main__":
     window = MediaPipe5()
     window.show()
     sys.exit(app.exec_())
+
+'''
+    MediaPipe 5 gestos
+'''

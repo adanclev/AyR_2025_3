@@ -1,17 +1,17 @@
 from PyQt5 import uic, QtWidgets, QtGui, QtCore
 from PyQt5.QtSvg import QSvgRenderer
 from camera_thread import CameraThread
-from config import STYLES, MODELO, PESOS
+from config import STYLES
 
-qtCreatorFile = "Interfaz_Verificacion.ui"  # Nombre del archivo aquí.
+qtCreatorFile = "Interfaz_VerificacionOpenCV.ui"  # Nombre del archivo aquí.
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-class CNNTiempoRealView(QtWidgets.QMainWindow, Ui_MainWindow):
+class OpenCVTiempoReal(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-        self.setWindowTitle("CNN Tiempo Real")
+        self.setWindowTitle("OpenCV Tiempo Real")
 
         self.lbl_predict.setText("Esperando cámara ...")
 
@@ -21,11 +21,10 @@ class CNNTiempoRealView(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.Worker = None
 
-    # Área de los Slots
     def toggle_camera(self):
         if self.Worker is None or not self.Worker.isRunning():
             self.is_running = True
-            self.Worker = CameraThread(model_path=MODELO, weights_path=PESOS)
+            self.Worker = CameraThread()
 
             self.Worker.Prediction.connect(self.worker_conn)
             self.Worker.start()
