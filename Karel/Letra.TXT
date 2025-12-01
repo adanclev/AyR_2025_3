@@ -1,0 +1,113 @@
+class program {
+
+void turnright(){
+    iterate(3){
+        turnleft();
+    }
+}
+
+void direccion(dir){
+    if(iszero(dir)){
+        turnright();
+        move();
+        turnright();
+    }else{
+        turnleft();
+        if(frontIsClear){
+            move();
+        }
+        turnleft();
+    }
+}
+
+void go(){
+    while(frontIsClear){
+        move();
+    }
+}
+
+void draw(n){
+    iterate(n){
+        putbeeper();
+        move();
+    }
+}
+
+void blanks(n){
+    iterate(n){
+        move();
+    }
+}
+
+void columnup(){
+    direccion(0);
+    blanks(1);
+    draw(1);
+    blanks(3);
+    draw(1);
+    blanks(2);
+    draw(1);
+}
+
+
+program() {
+    iterate(5){
+        go();
+        direccion(0);
+        go();
+        direccion(1);
+    }
+
+
+    go();
+    direccion(1);
+    go();
+    direccion(0);
+
+    go();
+
+    direccion(1);
+    blanks(2);
+    draw(2);
+    blanks(1);
+    draw(3);
+
+    go();
+
+    columnup();
+
+    go();
+
+    direccion(1);
+    blanks(1);
+    draw(1);
+    blanks(2);
+    draw(1);
+    blanks(3);
+    draw(1);
+
+    go();
+
+    columnup();
+
+    go();
+
+    direccion(1);
+    blanks(1);
+    draw(8);
+
+    go();
+
+    direccion(0);
+
+
+    go();
+    direccion(1);
+    go();
+    turnleft();
+    turnleft();
+    ;
+    turnoff();
+}
+
+}

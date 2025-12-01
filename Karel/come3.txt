@@ -1,58 +1,82 @@
 class program {
 
-    void turnRight() {
-        iterate(3) { turnleft(); }
+void turnright(){
+    iterate(3){
+        turnleft();
     }
+}
 
-    void pickBeepers(n) {
-        if(iszero(n)) {
-            if(nextToABeeper) {
-                iterate(3) { putbeeper(); }
-            }
-        } else {
-            if(nextToABeeper) {
-              pickbeeper();
-              pickBeepers(pred(n));
-            } else if(iszero(pred(n))){
-                    iterate(2) { putbeeper(); }
-            } else if(iszero(pred(pred(n)))) {
+void retur(dir){
+
+
+    if(iszero(dir)){
+        turnright();
+        move();
+        turnright();
+    }else{
+        turnleft();
+        if(frontIsClear){
+            move();
+        }
+        turnleft();
+    }
+}
+
+
+void go(){
+    while (frontIsClear){
+        if(nextToABeeper){
+            pickbeeper();
+            if(nextToABeeper){
+                pickbeeper();
+                if(nextToABeeper){
+                    pickbeeper();
+
+                    if(nextToABeeper){
+                        iterate(3){
+                            putbeeper();
+                        }
+                    }
+                }else{
+                    iterate(2){
+                        putbeeper();
+                    }
+                }
+            }else{
                 putbeeper();
             }
         }
+        move();
     }
+}
 
-    void go() {
-        while(frontIsClear) {
-            pickBeepers(3);
 
-            move();
-        }
-    }
+program() {
+     iterate(5){
+         go();
+         retur(0);
+         go();
+         retur(1);
+         go();
+     }
 
-    void retorno(a) {
-        pickBeepers(3);
-        if(iszero(a)) {
-            turnRight();
-            move();
-            turnRight();
-        } else {
-            turnleft();
-            if(frontIsClear) {
-                move();
-            }
-            turnleft();
-        }
+     iterate(4){
+         retur(1);
+         go();
+         retur(0);
+         go();
+     }
+     turnleft();
+     move();
+     turnleft();
+     go();
+     turnleft();
+     turnleft();
 
-    }
 
-    program() {
-        iterate(5) {
-            go();
-            retorno(0);
-            go();
-            retorno(1);
-        }
 
-        turnoff();
-    }
+    turnoff();
+}
+
+
 }
