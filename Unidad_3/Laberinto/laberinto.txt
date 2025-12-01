@@ -1,0 +1,3 @@
+Laberinto procedural
+Laberinto manual
+Laberinto automático

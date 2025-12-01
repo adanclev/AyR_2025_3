@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Unidad_2/E04_CNN/modelo" />
       <excludeFolder url="file://$MODULE_DIR$/Unidad_2/E05_FaceTrainer/modelo" />
       <excludeFolder url="file://$MODULE_DIR$/Unidad_3/ENN_BocinaXVoz/model" />
+      <excludeFolder url="file://$MODULE_DIR$/Unidad_3/ENN_BocinaXVoz/sounds" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
