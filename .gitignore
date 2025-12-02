@@ -5,11 +5,10 @@ Archivos/Images/adan/
 Archivos/Images/adan_obs/
 
 # Modelo keras y OpenCV
-modelo/
-model/
+Unidad_2/E04_CNN/modelo/
+Unidad_2/E04_CNN/modelo-99-a/
+Unidad_3/ENN_BocinaXVoz/model/
 *.xml
-*.keras
-*.h5
 
 Unidad_3/ENN_BocinaXVoz/sounds/
 *.mp3
