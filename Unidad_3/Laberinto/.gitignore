@@ -1,0 +1,49 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Dd]ebug/
+
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+!/[Aa]ssets/**/*.meta
+
+# Auto-generated VS/MD/Consulo solution and project files
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity auto-generated files
+*.unitypackage
+
+# Crash reports
+sysinfo.txt
+
+# Rider
+.idea/
+*.iml
+
+
+# --- IGNORAR VUFORIA ---
+/Packages/com.ptc.vuforia.engine-*.tgz
+/Packages/com.ptc.vuforia.*/
+/Assets/Editor/Vuforia/
+/Assets/Vuforia/
+/Vuforia/
