@@ -19,7 +19,6 @@ def crear_modelo():
         Dense(OUTPUT_NODES, activation='sigmoid')
     ])
 
-    # Compilamos aunque no usemos backpropagation, para inicializar todo bien
     model.compile(loss='mse', optimizer='adam')
     return model
 

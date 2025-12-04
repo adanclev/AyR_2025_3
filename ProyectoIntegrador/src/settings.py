@@ -2,7 +2,7 @@
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 400
 SUELO_Y = 350
-FPS = 0 # Déjalo en 60 para que tu CPU no se acelere tratando de ir al infinito
+FPS = 60
 
 # Forma dinosaurio
 ANCHO_DINO = 40
@@ -13,7 +13,6 @@ COLOR_DINO = (152, 251, 152)
 ANCHO_OBS = (20, 70) # (mínimo, máximo)
 ALTO_OBS = (20, 60) # (mínimo, máximo)
 
-# --- AJUSTES DE SEGURIDAD PARA TU LAPTOP ---
 POBLACION_TAMANO = 80
 MODO_VISUAL = False
 
